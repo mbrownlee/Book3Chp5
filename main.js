@@ -127,16 +127,20 @@ businesses.forEach((business) => {
   outEl.innerHTML += "<hr/>";
 });
 
-document.querySelector("#companySearch")
-    .addEventListener("keypress", keyPressEvent => {
-        if (keyPressEvent.charCode === 13) {
-            /* WHEN  USER PRESSES ENTER, FIND MATCHING BUSINESS */
-            const foundBusiness = businesses.find(
-                business =>
-                    business.purchasingAgent.nameFirst.includes(keyPressEvent.target.value)
-            );
+document
+  .querySelector("#companySearch")
+  .addEventListener("keypress", (keyPressEvent) => {
+    if (keyPressEvent.charCode === 13) {
+      /* WHEN  USER PRESSES ENTER, FIND MATCHING BUSINESS */
+      const foundBusiness = businesses.find(
+        (business) =>
+          business.purchasingAgent.nameFirst.includes(
+            keyPressEvent.target.value
+          ) ||
+          business.purchasingAgent.nameLast.includes(keyPressEvent.target.value)
+      );
 
-            outEl.innerHTML = `
+      outEl.innerHTML = `
                 <h2>
                 ${foundBusiness.companyName}
                 </h2>
@@ -150,10 +154,34 @@ document.querySelector("#companySearch")
                 ${foundBusiness.addressZipCode}
                 </section>
             `;
-        }
-    });
+    }
+  });
 
-    
+businesses.forEach((business) => {
+  /* CALCULATE ORDER SUMMARY */
+  /* CALCULATE ORDER SUMMARY */
+  let totalOrders = business.orders.reduce(
+    (currentTotal, nextValue) => (currentTotal += nextValue),
+    0
+  );
+
+  outEl.innerHTML += `
+          <h2>
+              ${business.companyName}
+              ($${totalOrders})
+          </h2>
+          <section>
+              ${business.addressFullStreet}
+          </section>
+          <section>
+              ${business.addressCity},
+              ${business.addressStateCode}
+              ${business.addressZipCode}
+          </section>
+      `;
+  outEl.innerHTML += "<hr/>";
+});
+
 /*
 // Array to contain all the New York businesses
 const newYorkBusinesses = businesses.filter((business) => {
