@@ -157,6 +157,13 @@ document
     }
   });
 
+  const bigSpenders = businesses.filter(business => {
+    
+    return business.orders.some(bigCash => bigCash >= 9000)
+    
+  })
+  console.log(bigSpenders) 
+
 businesses.forEach((business) => {
   /* CALCULATE ORDER SUMMARY */
   /* CALCULATE ORDER SUMMARY */
